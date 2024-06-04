@@ -17,7 +17,7 @@ def openai_llm(**kwargs):
 def moonshot_llm(**kwargs):
     llm = OpenAI(
         model="moonshot-v1-8k",
-        api_key="sk-RTuyJUf0fxmxODZV8yfcyiUbvo1cbJUHyTW2l5yH554dTHi8",
+        api_key="sk-CoeOW7QSFzoFs66vrDKHSYOfKvIZVoXqAGmw15PyEgEfYbS2",
         api_base="https://api.moonshot.cn/v1",
         **kwargs
     )
@@ -52,3 +52,18 @@ def llama3_70B_llm(**kwargs):
         **kwargs
     )
     return llm
+
+# def groq_llama3_8B_llm(**kwargs):
+#     llm = Groq(model="llama3-8b-8192",
+#                api_key="gsk_23DzHO0lY8Rvm8LhsV2DWGdyb31FY8CsaFigyyaX5Kqs2JsAVlFlO",
+#                **kwargs
+#                )
+#     return llm
+#
+#
+# def groq_llama3_70B_llm(**kwargs):
+#     llm = Groq(model="llama3-70b-8192",
+#                api_key="gsk_23DzHO0lY8Rvm8LhsV2DWGdyb3F1Y8CsaFigyyaX5Kqs2JsAVlFlO",
+#                **kwargs
+#                )
+#     return llm
