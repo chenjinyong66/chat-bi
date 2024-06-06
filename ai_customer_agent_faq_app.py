@@ -1,11 +1,10 @@
-import customer_tools
 import streamlit as st
-
 from llama_index.core.agent import ReActAgent
 from llama_index.core.base.llms.types import ChatMessage, MessageRole
-from llama_index.core.tools import FunctionTool, QueryEngineTool, ToolMetadata
+from llama_index.core.tools import FunctionTool
 
-from llms.LLMs import openai_llm, moonshot_llm, deepseek_llm
+import customer_tools
+from llms.LLMs import moonshot_llm
 
 try:
     from llama_index import VectorStoreIndex, ServiceContext, Document, SimpleDirectoryReader, Settings
@@ -31,12 +30,14 @@ if "messages" not in st.session_state.keys():  # Initialize the chat messages hi
 def init_tools():
     search_order_tool = FunctionTool.from_defaults(fn=customer_tools.search_order, return_direct=True)
     recommend_product_tool = FunctionTool.from_defaults(fn=customer_tools.recommend_product, return_direct=True)
-    toolsList = [customer_tools.faq_query_tool(),  # 该工具是QueryEngineTool--知识库检索代码
-                 recommend_product_tool,  # 该工具是FunctionTool--逻辑运算代码
-                 search_order_tool,
-                 ]
 
-    return toolsList
+    tools_list = [customer_tools.faq_query_tool(),  # 该工具是QueryEngineTool--知识库检索代码
+                  recommend_product_tool,  # 该工具是FunctionTool--逻辑运算代码
+                  search_order_tool,
+
+                  ]
+
+    return tools_list
 
 
 tools = init_tools()
@@ -65,6 +66,7 @@ if st.session_state.messages[-1].role != MessageRole.ASSISTANT:
             response = st.session_state.chat_engine.stream_chat(prompt)
             print("思考的问题----%s", response)
             text = st.write_stream(response.response_gen)
+            print("text=====" + text)
 
             chatMessage = ChatMessage(role=MessageRole.ASSISTANT, content=text)
             st.session_state.messages.append(chatMessage)  # 添加响应到消息历史记录
