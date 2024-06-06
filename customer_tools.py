@@ -1,14 +1,9 @@
 import socket
 from typing import Dict
+
 import paramiko
-import openai
 from llama_index.core import StorageContext, load_index_from_storage, SimpleDirectoryReader, VectorStoreIndex
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
-
-
-
-openai.api_key = "sk-JxLAjLyiAoUAfgFE901c6b823bC84e8bA81042CbA0Bd8188"
-openai.base_url = "https://api.xty.app/v1"
 
 
 def faq_query_tool():
@@ -25,7 +20,6 @@ def faq_query_tool():
     if not index_loaded:
         # load data
         docs = SimpleDirectoryReader(
-
             input_files=["./ecommerce_data/faq.txt"]
         ).load_data()
         # build index

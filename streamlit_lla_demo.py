@@ -6,6 +6,10 @@ from llama_index.core.base.llms.types import ChatMessage, MessageRole
 from llama_index.core.tools import FunctionTool
 
 import customer_tools
+from tools.ssh import ssh
+from tools.ipInfo import ipinfo
+from tools.python_exec import execute_python
+
 from file_tools import FileTools
 from llms.LLMs import moonshot_llm, deepseek_llm
 from ops_agent.hdfs_analyse.hdfscluster import HDFSCluster
@@ -43,12 +47,16 @@ def init_tools():
     hdfs_nodes_tool = FunctionTool.from_defaults(fn=hdfs_tool.get_namenodes)
     hdfs_exec_tool = FunctionTool.from_defaults(fn=hdfs_tool.exec_command)
     hdfs_disk_free_tool = FunctionTool.from_defaults(fn=hdfs_tool.get_local_disk_free)
+    ipinfo_tool = FunctionTool.from_defaults(fn=ipinfo)
+    execute_python_tool = FunctionTool.from_defaults(fn=execute_python)
+    ssh_tool = FunctionTool.from_defaults(fn=ssh)
 
     tools = [
         customer_tools.faq_query_tool(),  # 该工具是QueryEngineTool--知识库检索代码
         save_file_tool, read_file_tool, list_files_tool,
         hdfs_nodes_tool,
-        hdfs_exec_tool, hdfs_log_tool, hdfs_touch_tool, hdfs_disk_free_tool
+        hdfs_exec_tool, hdfs_log_tool, hdfs_touch_tool, hdfs_disk_free_tool,
+        ipinfo_tool, execute_python_tool, ssh_tool
     ]
     return tools
 
